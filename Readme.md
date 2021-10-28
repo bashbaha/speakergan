@@ -69,7 +69,7 @@ The following are details about this paper.
 
 4. D_train steps / G_train steps = 4
 
-5. Ladv Loss: Label smoothing, 1 -> 0.7~1.0, 0 -> 0~0.3
+5. Ladv Loss: Label smoothing, 1 -> 0.7 ~ 1.0, 0 -> 0 ~ 0.3
 
 
 ======== not sure or differences with paper ========
