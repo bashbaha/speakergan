@@ -7,7 +7,7 @@ This repository is about paper SpeakerGAN , and is implemented by Mingming Huang
 SpeakerGAN: [Speaker identification with conditional generative adversarial network](https://www.researchgate.net/publication/344057150_SpeakerGAN_Speaker_Identification_with_Conditional_Generative_Adversarial_Network)， by Liyang Chen , Yifeng Liu , Wendong Xiao , Yingxue Wang ,Haiyong Xie.
 
 ## Usage ##
-For train/test/generate: 
+For train / test / generate: 
 
 	python speakergan.py
     
@@ -20,9 +20,14 @@ You may need to change the path of wav vad preprocessed files.
 	acc: 93.21% with fixed start sampled testset.
 
 	using model file: model/49_D.pkl
-
-There is about 4% gap lower compared to paper result.    We can't find out the reason. **We want your help !**
     
+    acc: 98.44% on training classification accuracy with real samples.
+
+There is about **4% gap on testset** lower compared to paper result.    We can't find out the reason. **We want your help !**
+
+![Alt accuracy](logs/acc.png)    
+![Alt loss_d_loss_g](logs/loss.png)   
+![Alt learning_rate](logs/lr.png)   
     
 ## Details of paper ##
 
