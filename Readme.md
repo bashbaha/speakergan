@@ -1,6 +1,6 @@
 ## Introduction ##
 
-This repository is about paper SpeakerGAN , and is implemented by Mingming Huang (dyyzhmm@163.com), Tiezheng Wang (wtz920729@163.com) and thanks for advice from TongFeng.
+This repository is about paper SpeakerGAN , and is unofficially implemented by Mingming Huang (dyyzhmm@163.com), Tiezheng Wang (wtz920729@163.com) and thanks for advice from TongFeng.
 
 ## SpeakerGAN paper ##
 
