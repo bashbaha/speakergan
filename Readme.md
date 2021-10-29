@@ -84,5 +84,8 @@ The following are details about this paper.
 
 5. we use webrtcvad mode(3) for vad preprocess.
 
+6. **Paper error 1**: we think the paper missing a plus sign in formula (5)
+
+7. **Paper error 2**: we think the structure of conv6 in Generator is wrong, the output channel should be 64.
 
 
