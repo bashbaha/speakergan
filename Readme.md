@@ -15,9 +15,9 @@ You may need to change the path of wav vad preprocessed files.
     
 ## Our results ##
 
-	acc: 94.27% with random sampled testset. 
+	acc: 94.27% with random start position on testset. 
 
-	acc: 93.21% with fixed start sampled testset.
+	acc: 93.21% with fixed start position on testset.
 
 	using model file: model/49_D.pkl
     
