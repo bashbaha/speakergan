@@ -11,23 +11,21 @@ For train / test / generate:
 
 	python speakergan.py
     
-You may need to change the path of wav vad preprocessed files.
+You may need to change the path of vad preprocessed wav files.
+
+It costs us about 65 hours to train on NVIDIA Ampere A100 1 card. 
     
 ## Our results ##
 
-	acc: 94.27% with random start position on testset. 
-
-	acc: 93.21% with fixed start position on testset.
-
-	using model file: model/49_D.pkl
+	acc: 98.1955% on testset. Fixed first 1.6 seconds on testset, model/2200_D.pkl.
     
-    acc: 98.44% on training classification accuracy with real samples.
-
-There is about **4% gap on testset** lower compared to paper result.    We can't find out the reason. **We want your help !**
 
 ![Alt accuracy](logs/acc.png)    
 ![Alt loss_d_loss_g](logs/loss.png)   
 ![Alt learning_rate](logs/lr.png)   
+
+Generated samples with Generator on model/2200_G.pkl:
+![Alt generated_feature](logs/gen.png)   
     
 ## Details of paper ##
 
@@ -65,18 +63,20 @@ The following are details about this paper.
 
 2. L(d): λ1 λ2 = 1
 
-3. batch_size: 64
+3. batch_size: 128 # diff with paper.
 
-4. D_train steps / G_train steps = 4
+4. epoch: 2200 #diff with paper
 
-5. Ladv Loss: Label smoothing, 1 -> 0.7 ~ 1.0, 0 -> 0 ~ 0.3
+5. D_train steps / G_train steps = 4
+
+6. Ladv Loss: Label smoothing, 1 -> 0.7 ~ 1.0, 0 -> 0 ~ 0.3
 
 
 ======== not sure or differences with paper ========
 
-1. weights,bias initialize function, use: xavier_uniform and zeros
+1. weights,bias initialize function, we use: xavier_uniform and zeros
 
-2. pytorch huber_loss： + 0.5 to be same with paper.  but no implement here.
+2. pytorch huber_loss.
 
 3. for shorter wav, paper: padded with zero. we: padded with feature again.
 

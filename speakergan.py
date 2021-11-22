@@ -83,8 +83,6 @@ class MyDataset(Dataset):
             feature = feature[rand_start : rand_start + self.width]
         else: #fixed feature for test
             feature = feature[0 : self.width]
-            #rand_start = random.randint(0,feature_len - self.width)
-            #feature = feature[rand_start : rand_start + self.width]
 
         #normalize
         std,mu = torch.std_mean(feature,dim=0)
@@ -347,10 +345,10 @@ class SpeakerGAN():
     def __init__(self,):
         #base info
         self.num_classes = 251
-        self.batch_size = 64
+        self.batch_size = 128 #diff with paper, beneficial ot our CER 1.80.
         self.lr_init10 = 5e-4 
         self.lr_after10 = 2e-4
-        self.epochs = 50
+        self.epochs = 2200 #diff with paper, beneficial to our CER 1.80.
         self.device = 'cuda:0' #'cuda:0' or 'cpu
         self.d_train_times = 4
         self.model_path = './model'
@@ -476,16 +474,24 @@ class SpeakerGAN():
         d = torch.load(D_model)
         d.eval()
         correct = 0.0
-        for batch_id,(x,y) in enumerate(self.test_dataloader):
-            if batch_id % 5000 == 0:
-                print ('testing : ' + str(batch_id) + '/' + str(self.test_dataset.__len__()))
-            x = x.to(self.device)
-            y = y.to(self.device)
-            pred_y, _ = d(x)
-            test_acc = torch.eq(torch.argmax(pred_y, dim = 1), y).sum().float().item() / len(y)
-            correct = correct + test_acc
-        print ('test accuracy:')
-        print (correct / self.test_dataset.__len__())
+        with torch.no_grad():
+            count = 0
+            for batch_id,(x,y) in enumerate(self.test_dataloader):
+                count = count + 1
+                if batch_id % 5000 == 0:
+                    print ('testing : ' + str(batch_id) + '/' + str(self.test_dataset.__len__()))
+                x = x.to(self.device)
+                y = y.to(self.device)
+                pred_y, pred_real_flag = d(x)
+                label_real = torch.tensor([0,1]).to(self.device)
+                self.writer.add_scalars('test/real_flag_' + D_model,{'real':pred_real_flag[0][1].item() , 'fake':pred_real_flag[0][0].item(),}, batch_id)
+                real_loss_d = self.AdversarialLoss(pred_real_flag,label_real)
+                self.writer.add_scalar('test/loss_flag_' + D_model, real_loss_d.item(),batch_id)
+                test_acc = torch.eq(torch.argmax(pred_y, dim = 1), y).sum().float().item() / len(y)
+                correct = correct + test_acc
+            print ('test accuracy:')
+            print (correct / count)
+        self.writer.close()    
 
     def generate_sample(self, G_model):
         g = torch.load(G_model)
@@ -517,5 +523,5 @@ class SpeakerGAN():
 if __name__ == "__main__":
     model = SpeakerGAN()
     model.train()
-    model.test('model/49_D.pkl')
-    model.generate_sample('model/49_G.pkl')
+    model.test('model/2200_D.pkl')
+    model.generate_sample('model/2200_G.pkl')
