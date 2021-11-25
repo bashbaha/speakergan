@@ -7,13 +7,22 @@ This repository is about paper SpeakerGAN , and is unofficially implemented by M
 SpeakerGAN: [Speaker identification with conditional generative adversarial network](https://www.researchgate.net/publication/344057150_SpeakerGAN_Speaker_Identification_with_Conditional_Generative_Adversarial_Network)， by Liyang Chen , Yifeng Liu , Wendong Xiao , Yingxue Wang ,Haiyong Xie.
 
 ## Usage ##
-For train / test / generate: 
-
-	python speakergan.py
+Step 1: for vad preprocess.
     
-You may need to change the path of vad preprocessed wav files.
+    $python vad.py filelist_with_absolute_path   #It will get vad file saved in the same directory with '_vad' for filename.
+    $cat filelist_with_absolute_path
+    /datasdc/librispeech/train-clean-100/458/126305/458-126305-0041.wav
+    /datasdc/librispeech/train-clean-100/4051/11218/4051-11218-0009.wav
+    /datasdc/librispeech/train-clean-100/7635/105409/7635-105409-0022.wav
+    .
+    .
+    .
 
-It costs us about 65 hours to train on NVIDIA Ampere A100 1 card. 
+Step 2: for train / test / generate: 
+
+	python speakergan.py  #You may need to change the path of vad preprocessed wav files.
+
+It costs us about 65 hours to train on NVIDIA Ampere A100 1 card with help of redis cache.
     
 ## Our results ##
 
