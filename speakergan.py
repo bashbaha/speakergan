@@ -366,7 +366,7 @@ class SpeakerGAN():
         self.train_dataset = MyDataset(mode='train')
         self.train_dataloader = DataLoader(self.train_dataset,batch_size = self.batch_size, shuffle=True, drop_last=True, num_workers=5 )
         self.test_dataset = MyDataset(mode='test')
-        self.test_dataloader = DataLoader(self.test_dataset,batch_size = 1, shuffle=False, drop_last=False, num_workers=2 )
+        self.test_dataloader = DataLoader(self.test_dataset,batch_size = 64, shuffle=False, drop_last=False, num_workers=2 )
 
         #optimizer
         self.optimizer_D = torch.optim.Adam(self.D.parameters(), lr = self.lr_init10, betas=(0.5, 0.999) )
@@ -487,7 +487,7 @@ class SpeakerGAN():
                 self.writer.add_scalars('test/real_flag_' + D_model,{'real':pred_real_flag[0][1].item() , 'fake':pred_real_flag[0][0].item(),}, batch_id)
                 real_loss_d = self.AdversarialLoss(pred_real_flag,label_real)
                 self.writer.add_scalar('test/loss_flag_' + D_model, real_loss_d.item(),batch_id)
-                test_acc = torch.eq(torch.argmax(pred_y, dim = 1), y).sum().float().item() / len(y)
+                test_acc = torch.eq(torch.argmax(pred_y, dim = 1), y.squeeze()).sum().float().item() / len(y)
                 correct = correct + test_acc
             print ('test accuracy:')
             print (correct / count)
